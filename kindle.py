@@ -128,7 +128,7 @@ class KindleFactory:
 		for x in idlist:
 			self.specs[x] = cls;
 
-	def __init__(self)
+	def __init__(self):
 		## TODO: This is incomplete:
 		self.specs = {};
 		self.add_spec(["B000"], Kindle)

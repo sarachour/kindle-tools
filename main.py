@@ -3,4 +3,6 @@ import usb_iface
 
 iface = usb_iface.USBInterface("pyusb");
 #iface = USBInterface("python-libusb1");
-iface.get_kindles();
+kindles = iface.get_kindles();
+print(kindles)
+iface.close();

@@ -52,6 +52,11 @@ def load_bin_dir(x):
 	__load_dir_to_env("LD_LIBRARY_PATH",x);
 	print(os.environ["DYLD_LIBRARY_PATH"]);
 
+
+class PyUSBDevice:
+	def __init__(self,device):
+		self.impl = device;
+
 class PyUSBImpl:
 	name = "pyusb"
 	
@@ -103,7 +108,7 @@ class PyUSBImpl:
 		except usb.core.NoBackendError:
 			error_msg("pyusb could not find a backend. Please install libusb1.0 or libusb0.1.");
 	
-	
+ 	# gets kindle devices	
 	def get_kindles(self):
 		import usb.core;
 		import usb.util
@@ -113,14 +118,16 @@ class PyUSBImpl:
 		for device in dev:
 			manu = usb.util.get_string(device,device.iManufacturer);	
 			prod = usb.util.get_string(device,device.iProduct);
-			print(manu,prod)	
 			if(manu == "Amazon" and prod == "Amazon Kindle"):
 				ser_num = device.iSerialNumber;
 				serialnumber = usb.util.get_string(device,device.iSerialNumber)
-				kindle = self.kindleFactory.create(serialnumber,device);
-				print(str(kindle));
-				print(device);
+				kindle = self.kindleFactory.create(serialnumber,PyUSBDevice(device));
+				kindles.append(kindle)
+
 		return kindles;
+	
+	def close(self):
+		return;
 
 	def write_file(self,kindle,path,handle):
 		return None;
@@ -144,6 +151,8 @@ class USBInterface:
 
 
 	def get_kindles(self):
-		self.impl.get_kindles();
+		return self.impl.get_kindles();
 
-
+	
+	def close(self):
+		self.impl.close();
