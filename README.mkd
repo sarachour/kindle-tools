@@ -1,0 +1,24 @@
+
+## On OSX
+
+### LibUSB
+Install LibUSB
+
+	pip install libusb1
+
+### PyUSB
+	
+	sudo port install libusb 
+	pip install pyusb
+
+determine where `libusb.dylib` is:
+
+	sudo port contents libusb
+
+typically, this folder is `/opt/local/lib`. Then in config.dat, change the 
+
+	'LIBUSB_PATH='
+
+to 
+	
+	'LIBUSB_PATH=/opt/local/lib'
